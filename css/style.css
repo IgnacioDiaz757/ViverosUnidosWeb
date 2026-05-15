@@ -878,11 +878,18 @@ a, button, .filter-btn, .nav-toggle {
   .stats-grid { grid-template-columns: repeat(2, 1fr); }
   .stat-number { font-size: 40px; }
 
-  /* ── Gallery: aspect-ratio dinámico en lugar de altura fija ── */
-  .gallery-item img { height: auto; aspect-ratio: 4/3; object-fit: cover; }
+  /* ── Imágenes: mostrar completo sin recorte ── */
+  /* Gallery */
+  .gallery-item img { height: auto; aspect-ratio: 1/1; object-fit: contain; }
 
-  /* ── About image ── */
-  .about-image img { min-height: 200px; max-height: 280px; }
+  /* About */
+  .about-image img { height: auto; min-height: unset; max-height: none; object-fit: contain; }
+
+  /* Productos y cursos: quitar aspect-ratio forzado */
+  .product-image { aspect-ratio: auto; }
+  .product-image img { height: auto; object-fit: contain; }
+  .course-image { aspect-ratio: auto; }
+  .course-image img { height: auto; object-fit: contain; }
 
   /* ── Botones dentro de about-text → full width ── */
   .about-text .btn-primary,
