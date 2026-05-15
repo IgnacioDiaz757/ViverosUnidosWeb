@@ -4,15 +4,38 @@ document.addEventListener('DOMContentLoaded', function() {
   const toggle = document.getElementById('navToggle');
   const menu = document.getElementById('navMenu');
   if (toggle && menu) {
-    toggle.addEventListener('click', function() {
-      menu.classList.toggle('active');
-      toggle.classList.toggle('active');
-    });
+    function openMenu() {
+      menu.classList.add('active');
+      toggle.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeMenu() {
+      menu.classList.remove('active');
+      toggle.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+    function toggleMenu() {
+      menu.classList.contains('active') ? closeMenu() : openMenu();
+    }
+
+    toggle.addEventListener('click', toggleMenu);
+
     menu.querySelectorAll('.nav-link').forEach(function(link) {
-      link.addEventListener('click', function() {
-        menu.classList.remove('active');
-        toggle.classList.remove('active');
-      });
+      link.addEventListener('click', closeMenu);
+    });
+
+    // Cerrar al hacer click fuera del menú
+    document.addEventListener('click', function(e) {
+      if (menu.classList.contains('active') &&
+          !menu.contains(e.target) &&
+          !toggle.contains(e.target)) {
+        closeMenu();
+      }
+    });
+
+    // Cerrar si se pasa al breakpoint desktop
+    window.addEventListener('resize', function() {
+      if (window.innerWidth > 720) closeMenu();
     });
   }
 
