@@ -39,28 +39,6 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
 
-  // Gallery filters
-  const filters = document.getElementById('galleryFilters');
-  if (filters) {
-    const buttons = filters.querySelectorAll('.filter-btn');
-    const grid = document.getElementById('galleryGrid');
-    const items = grid ? grid.querySelectorAll('.gallery-item') : [];
-    function applyFilter(category) {
-      items.forEach(function(item) {
-        const itemCat = item.getAttribute('data-category');
-        const show = category === 'all' || itemCat === category;
-        item.style.display = show ? '' : 'none';
-      });
-    }
-    buttons.forEach(function(btn) {
-      btn.addEventListener('click', function() {
-        buttons.forEach(function(b){ b.classList.remove('active'); });
-        this.classList.add('active');
-        applyFilter(this.getAttribute('data-filter'));
-      });
-    });
-  }
-
   // Contact form → WhatsApp
   const form = document.getElementById('contactForm');
   if (form) {

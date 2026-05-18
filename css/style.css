@@ -627,6 +627,12 @@ body {
   font-family: var(--font-body); font-weight: 600; font-size: 13px;
   color: var(--soil); letter-spacing: .02em;
 }
+.gallery-status {
+  grid-column: 1 / -1;
+  text-align: center; padding: 48px 16px;
+  font-family: var(--font-body); color: var(--soil-mid); font-size: 15px;
+}
+.gallery-status--error { color: #C72525; }
 
 /* ============================================================
    FORM
@@ -852,7 +858,7 @@ a, button, .filter-btn, .nav-toggle {
   .hero-home { padding-top: 82px; padding-bottom: 40px; }
   .hero-home h1 { font-size: clamp(38px, 10vw, 52px); line-height: .92; }
   .hero-home .hero-subtitle { font-size: 16px; margin-bottom: 24px; max-width: 100%; }
-  .hero-home .hero-art { height: 260px; }
+  .hero-home .hero-art { display: none; }
   .hero-home .hero-actions { flex-direction: column; align-items: stretch; gap: 10px; }
   .hero-home .hero-actions .btn-primary,
   .hero-home .hero-actions .btn-ghost,
@@ -952,7 +958,6 @@ a, button, .filter-btn, .nav-toggle {
   /* ── Hero home ── */
   .hero-home { padding-top: 82px; padding-bottom: 32px; }
   .hero-home h1 { font-size: clamp(30px, 10.5vw, 40px); }
-  .hero-home .hero-art { height: 220px; }
 
   /* ── Hero page ── */
   .hero-page { padding-top: 96px; padding-bottom: 36px; }
