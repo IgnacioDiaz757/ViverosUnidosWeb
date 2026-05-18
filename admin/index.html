@@ -110,6 +110,21 @@
 
     .gallery-empty-msg { text-align: center; padding: 28px; color: #76664f; font-size: 14px; }
 
+
+    .back-home{
+  display:inline-block;
+  margin-bottom:18px;
+  color:#76664f;
+  text-decoration:none;
+  font-size:13px;
+  font-weight:700;
+  transition:.2s;
+}
+
+.back-home:hover{
+  color:#E61D86;
+}
+
     /* ── Spinner ── */
     .spinner { width: 14px; height: 14px; border: 2px solid rgba(255,255,255,.35); border-top-color: #fff; border-radius: 50%; animation: spin .6s linear infinite; }
     @keyframes spin { to { transform: rotate(360deg); } }
@@ -120,6 +135,7 @@
   <!-- ── LOGIN ── -->
   <div id="loginScreen">
     <div class="login-card">
+      <a href="../index.html" class="back-home">← Volver al inicio</a>
       <h1>Viveros Unidos</h1>
       <p>Panel de administración · Galería</p>
       <div id="loginMsg" class="msg"></div>
@@ -134,12 +150,21 @@
   <!-- ── ADMIN ── -->
   <div id="adminPanel">
     <header class="admin-header">
-      <div>
-        <h1>Galería · Admin</h1>
-        <small id="userEmail"></small>
-      </div>
-      <button class="btn btn-outline" id="logoutBtn">Cerrar sesión</button>
-    </header>
+  <div>
+    <h1>Galería · Admin</h1>
+    <small id="userEmail"></small>
+  </div>
+
+  <div style="display:flex; gap:10px; align-items:center;">
+    <a href="../index.html" class="btn btn-outline">
+      Ir al sitio
+    </a>
+
+    <button class="btn btn-outline" id="logoutBtn">
+      Cerrar sesión
+    </button>
+  </div>
+</header>
 
     <div class="admin-body">
 
@@ -163,20 +188,34 @@
           </div>
         </div>
         <div class="form-row">
-          <div>
-            <label for="imgTitle">Título</label>
-            <input type="text" id="imgTitle" placeholder="Ej: Invernadero principal">
-          </div>
-          <div>
-            <label for="imgCategory">Categoría</label>
-            <select id="imgCategory">
-              <option value="vivero">Vivero</option>
-              <option value="produccion">Producción</option>
-              <option value="capacitaciones">Capacitaciones</option>
-              <option value="eventos">Eventos</option>
-            </select>
-          </div>
-        </div>
+  <div>
+    <label for="imgTitle">Título</label>
+    <input type="text" id="imgTitle" placeholder="Ej: Invernadero principal">
+  </div>
+
+  <div>
+    <label for="imgCategory">Categoría</label>
+
+    <select id="imgCategory"></select>
+
+    <div style="display:flex; gap:8px; margin-top:10px;">
+      <input
+        type="text"
+        id="newCategory"
+        placeholder="Nueva categoría"
+        style="margin-bottom:0;"
+      >
+
+      <button
+        type="button"
+        class="btn btn-outline"
+        id="addCategoryBtn"
+      >
+        Agregar
+      </button>
+    </div>
+  </div>
+</div>
         <button class="btn btn-green" id="uploadBtn">Subir imagen</button>
       </div>
 
@@ -190,8 +229,83 @@
 
     </div>
   </div>
+  <script>
+  const defaultCategories = [
+    'vivero',
+    'produccion',
+    'capacitaciones',
+    'eventos'
+  ];
 
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="./admin.js"></script>
+  function loadCategories() {
+    const saved =
+      JSON.parse(localStorage.getItem('galleryCategories')) ||
+      defaultCategories;
+
+    const select = document.getElementById('imgCategory');
+
+    select.innerHTML = '';
+
+    saved.forEach(cat => {
+      const option = document.createElement('option');
+
+      option.value = cat;
+
+      option.textContent =
+        cat.charAt(0).toUpperCase() +
+        cat.slice(1).replace(/-/g, ' ');
+
+      select.appendChild(option);
+    });
+  }
+
+  document
+    .getElementById('addCategoryBtn')
+    .addEventListener('click', function () {
+
+      const input =
+        document.getElementById('newCategory');
+
+      let value = input.value
+        .trim()
+        .toLowerCase()
+        .normalize('NFD')
+        .replace(/[̀-ͯ]/g, '')
+        .replace(/\s+/g, '-')
+        .replace(/[^a-z0-9-]/g, '');
+
+      if (!value) return;
+
+      let saved =
+        JSON.parse(localStorage.getItem('galleryCategories')) ||
+        defaultCategories;
+
+      if (!saved.includes(value)) {
+
+        saved.push(value);
+
+        localStorage.setItem(
+          'galleryCategories',
+          JSON.stringify(saved)
+        );
+
+        loadCategories();
+
+        document.getElementById('imgCategory').value =
+          value;
+      }
+
+      input.value = '';
+    });
+
+  loadCategories();
+</script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+  // categorías dinámicas
+</script>
+
+<script src="./admin.js"></script>
 </body>
 </html>
